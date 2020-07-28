@@ -1,0 +1,8 @@
+api_server:
+  env: prod
+  host: 10.1.177.15
+  port: 9000
+cmdb_mgo:
+  uri: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+  #uri: mongodb://cmdb:cmdb123456@10.2.145.89:28010/cmdbtest?replicaSet=test-cmdbtest
+  database: cmdbtest

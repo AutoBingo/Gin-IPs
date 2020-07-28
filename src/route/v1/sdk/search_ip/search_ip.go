@@ -11,7 +11,7 @@ import (
 
 var SearchIpHandlerWithGet = func(c *gin.Context) {
 	response := route_response.Response{
-		Code:configure.RequestSuccess,
+		Code: configure.RequestSuccess,
 		Data: route_response.ResponseData{List: []interface{}{}},
 	}
 	var params route_request.ReqGetParaSearchIp
@@ -37,12 +37,8 @@ var SearchIpHandlerWithGet = func(c *gin.Context) {
 		PageSize: 1,
 		Size:     1,
 		Total:    1,
-		List:     []interface{}{hostInfo, },
+		List:     []interface{}{hostInfo},
 	}
 	c.JSON(http.StatusOK, response)
 	return
 }
-
-
-
-

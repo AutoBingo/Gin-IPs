@@ -2,8 +2,6 @@ package v1_sdk
 
 import (
 	"Gin-IPs/src/configure"
-	"Gin-IPs/src/route/request"
-	"Gin-IPs/src/route/response"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"

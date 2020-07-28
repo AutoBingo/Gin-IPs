@@ -1,8 +1,6 @@
 package main
 
 import (
-	"Gin-IPs/src/route/request"
-	"Gin-IPs/src/route/v1/sdk/search_ip"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"os"

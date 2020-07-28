@@ -3,7 +3,6 @@ package route_request
 import (
 	"fmt"
 	"github.com/gin-gonic/gin/binding"
-	"github.com/go-playground/validator/v10"
 	"os"
 	"reflect"
 	"sync"

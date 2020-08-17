@@ -60,6 +60,18 @@ type GinConfig struct {
 		Level string `yaml:"level"`
 		Count uint   `yaml:"count"`
 	} `yaml:"log"`
+	AccessLog struct {
+		Name  string `yaml:"access_name"`
+		Path  string `yaml:"access_path"`
+		Level string `yaml:"access_level"`
+		Count uint   `yaml:"count"`
+	} `yaml:"access_log"`
+	DetailLog struct {
+		Name  string `yaml:"detail_name"`
+		Path  string `yaml:"detail_path"`
+		Level string `yaml:"detail_level"`
+		Count uint   `yaml:"count"`
+	} `yaml:"detail_log"`
 }
 
 func (*GinConfig) InitError(msg string) error {

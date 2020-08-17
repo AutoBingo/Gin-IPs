@@ -2,6 +2,7 @@ package dao
 
 import (
 	"Gin-IPs/src/configure"
+	"Gin-IPs/src/service"
 	"Gin-IPs/src/utils/database/mongodb"
 	"encoding/json"
 )
@@ -16,13 +17,13 @@ func insertInstances(instArr []interface{}) error {
 	return nil
 }
 
-func InsertHost(hostArr []HostModel) error {
+func InsertHost(hostArr []service.HostModel) error {
 	var documents []interface{}
 	for _, host := range hostArr {
 		if hostBytes, err := json.Marshal(host); err != nil {
 			return err
 		} else {
-			var hm HostModel
+			var hm service.HostModel
 			if err := json.Unmarshal(hostBytes, &hm); err != nil {
 				return err
 			} else {
@@ -33,13 +34,13 @@ func InsertHost(hostArr []HostModel) error {
 	return insertInstances(documents)
 }
 
-func InsertSwitch(switchArr []SwitchModel) error {
+func InsertSwitch(switchArr []service.SwitchModel) error {
 	var documents []interface{}
 	for _, sw := range switchArr {
 		if hostBytes, err := json.Marshal(sw); err != nil {
 			return err
 		} else {
-			var sm SwitchModel
+			var sm service.SwitchModel
 			if err := json.Unmarshal(hostBytes, &sm); err != nil {
 				return err
 			} else {
@@ -51,7 +52,7 @@ func InsertSwitch(switchArr []SwitchModel) error {
 }
 
 func MockTest() {
-	hmArr := []HostModel{
+	hmArr := []service.HostModel{
 		{
 			Oid:      configure.OidHost,
 			Id:       "H001",
@@ -75,7 +76,7 @@ func MockTest() {
 	}
 	_ = InsertHost(hmArr)
 
-	swArr := []SwitchModel{
+	swArr := []service.SwitchModel{
 		{
 			Oid:           configure.OidSwitch,
 			Id:            "S001",

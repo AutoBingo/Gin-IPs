@@ -11,3 +11,13 @@ log:
   level: DEBUG
   name: gin.log
   count: 180
+access_log:
+  access_path: log/gin_ips
+  access_level: DEBUG
+  access_name: access.log
+  count: 180
+detail_log:
+  detail_path: log/gin_ips
+  detail_level: DEBUG
+  detail_name: detail.log
+  count: 180

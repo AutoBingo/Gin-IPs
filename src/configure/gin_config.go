@@ -18,6 +18,7 @@ var OidArray = []Oid{OidHost, OidSwitch}
 
 const (
 	InstanceCollection = "instances" // 存放实例的集合
+	SecretCollection = "secret"  // 存放密钥的集合
 )
 
 // 通用 Config 接口
@@ -72,6 +73,7 @@ type GinConfig struct {
 		Level string `yaml:"detail_level"`
 		Count uint   `yaml:"count"`
 	} `yaml:"detail_log"`
+	Expires int64 `yaml:"expires"` // 请求过期时间
 }
 
 func (*GinConfig) InitError(msg string) error {

@@ -26,6 +26,7 @@ func main() {
 	route := gin.New() // 不用默认的日志中间件
 	route_request.InitValidator()
 	route.Use(route_middleware.Logger())
+	route.Use(route_middleware.Validate())
 	route.GET("/", v1_sdk_search_ip.SearchIpHandlerWithGet)
 	if err := route.Run("127.0.0.1:8080"); err != nil {
 		fmt.Println(err)

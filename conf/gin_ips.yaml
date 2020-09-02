@@ -21,3 +21,4 @@ detail_log:
   detail_level: DEBUG
   detail_name: detail.log
   count: 180
+expires: 10

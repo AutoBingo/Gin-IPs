@@ -77,7 +77,6 @@ func Logger() gin.HandlerFunc {
 		requestBody, _ := ioutil.ReadAll(tee)
 		c.Request.Body = ioutil.NopCloser(&buf)
 
-		user := c.Writer.Header().Get("X-Request-User")
 		bodyLogWriter := &BodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = bodyLogWriter
 
@@ -85,6 +84,7 @@ func Logger() gin.HandlerFunc {
 
 		c.Next()
 
+		user := c.Writer.Header().Get("X-Request-User")
 		responseBody := bodyLogWriter.body.Bytes()
 		response := route_response.Response{}
 		if len(responseBody) > 0 {

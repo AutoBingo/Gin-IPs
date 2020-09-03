@@ -171,9 +171,15 @@ func (m *Collection) FindOne(filter bson.D, sort, projection bson.M) (bson.M, er
 			Result: "", Ok: false})
 		return result, err
 	}
-	Log(MongoLog{Database: m.database, Collection: m.collection, Action: "Find One",
-		Documents: map[string]interface{}{"filter": filter, "sort": sort}, ErrMsg: "",
-		Result: "", Ok: true})
+	if result == nil {
+		Log(MongoLog{Database: m.database, Collection: m.collection, Action: "Find One",
+			Documents: map[string]interface{}{"filter": filter, "sort": sort}, ErrMsg: "",
+			Result: "empty", Ok: true})
+	} else {
+		Log(MongoLog{Database: m.database, Collection: m.collection, Action: "Find One",
+			Documents: map[string]interface{}{"filter": filter, "sort": sort}, ErrMsg: "",
+			Result: "one result", Ok: true})
+	}
 	return result, nil
 }
 

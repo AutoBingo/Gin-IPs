@@ -5,14 +5,17 @@ import (
 	"Gin-IPs/src/utils/database/mongodb"
 	"Gin-IPs/src/utils/log"
 	"encoding/json"
+	"fmt"
+	"github.com/go-redis/redis"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Models struct {
-	Logger  *logrus.Logger
-	MgoPool *mongo.Client
-	MgoDb   string
+	Logger      *logrus.Logger
+	MgoPool     *mongo.Client
+	MgoDb       string
+	RedisClient *redis.Client
 }
 
 var ModelClient = new(Models)
@@ -33,6 +36,20 @@ func Init() error {
 	}
 	ModelClient.MgoDb = configure.GinConfigValue.Mgo.Database
 	ModelClient.Logger.Infof("Collection Client Pool Created successful With Uri %s", configure.GinConfigValue.Mgo.Uri)
+
+	redisAddr := fmt.Sprintf("%s:%d", configure.GinConfigValue.Redis.Host, configure.GinConfigValue.Redis.Port)
+	ModelClient.RedisClient = redis.NewClient(&redis.Options{
+		Addr:     redisAddr,
+		Password: "", // no password set
+		DB:       configure.GinConfigValue.Redis.ErrorDb,
+	})
+	_, err = ModelClient.RedisClient.Ping().Result()
+	if err != nil {
+		ModelClient.Logger.Errorf("Redis Client With Addr %s Create Failed: %s", redisAddr, err)
+		return err
+	}
+	ModelClient.Logger.Errorf("Redis Client With Addr %s Create Successful", redisAddr)
+
 	ModelClient.Logger.Infof("Models Created Success")
 	return nil
 }

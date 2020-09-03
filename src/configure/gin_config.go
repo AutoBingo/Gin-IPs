@@ -18,7 +18,7 @@ var OidArray = []Oid{OidHost, OidSwitch}
 
 const (
 	InstanceCollection = "instances" // 存放实例的集合
-	SecretCollection = "secret"  // 存放密钥的集合
+	SecretCollection   = "secret"    // 存放密钥的集合
 )
 
 // 通用 Config 接口
@@ -55,6 +55,11 @@ type GinConfig struct {
 		Database string `yaml:"database"`
 		PoolSize uint64 `yaml:"pool_size"`
 	} `yaml:"mgo"`
+	Redis struct { // 无密码Redis
+		Host    string `yaml:"host"`
+		Port    int64  `yaml:"port"`
+		ErrorDb int    `yaml:"error_db"` // 存放错误信息的数据库 recovery
+	} `yaml:"redis"`
 	Log struct {
 		Name  string `yaml:"name"`
 		Path  string `yaml:"path"`
@@ -73,6 +78,12 @@ type GinConfig struct {
 		Level string `yaml:"detail_level"`
 		Count uint   `yaml:"count"`
 	} `yaml:"detail_log"`
+	ErrorLog struct {
+		Name  string `yaml:"error_name"`
+		Path  string `yaml:"error_path"`
+		Level string `yaml:"error_level"`
+		Count uint   `yaml:"count"`
+	} `yaml:"error_log"`
 	Expires int64 `yaml:"expires"` // 请求过期时间
 }
 

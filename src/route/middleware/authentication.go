@@ -4,6 +4,7 @@ import (
 	"Gin-IPs/src/configure"
 	"Gin-IPs/src/dao"
 	"Gin-IPs/src/route/response"
+	"Gin-IPs/src/utils/uuid"
 	"bytes"
 	"crypto/hmac"
 	"crypto/md5"
@@ -19,6 +20,8 @@ import (
 	"strings"
 	"time"
 )
+
+var SnowWorker, _ = uuid.NewSnowWorker(100) // 随机生成一个uuid，100是节点的值（随便给一个）
 
 /*
 接口认证模块，根据申请到的 accessKey（公钥）和secretKey(私钥）加密验证
@@ -38,6 +41,8 @@ func Validate() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		response := route_response.Response{}
 		response.Data.List = []interface{}{} // 初始化为空切片，而不是空引用
+		traceId := SnowWorker.GetId()
+		c.Writer.Header().Set("X-Request-Trace-Id", traceId)
 
 		uri := c.Request.URL.Path
 		// remoteAddr := c.ClientIP()  // 也可以对客户端IP进行限制
@@ -57,6 +62,15 @@ func Validate() gin.HandlerFunc {
 			c.JSON(http.StatusUnauthorized, response)
 			return
 		}
+		secret, err := dao.FetchSecret(accessKey)
+		if err != nil || "valid" != secret.State {
+			c.Abort()
+			response.Code, response.Message = configure.RequestKeyNotFound, "无效的Token"
+			c.JSON(http.StatusUnauthorized, response)
+			return
+		}
+		c.Writer.Header().Set("X-Request-User", secret.User)
+
 		if expires == "" {
 			c.Abort()
 			response.Code, response.Message = configure.RequestParameterMiss, "有效期参数缺失"
@@ -69,13 +83,7 @@ func Validate() gin.HandlerFunc {
 			c.JSON(http.StatusUnauthorized, response)
 			return
 		}
-		secret, err := dao.FetchSecret(accessKey)
-		if err != nil || "valid" != secret.State {
-			c.Abort()
-			response.Code, response.Message = configure.RequestKeyNotFound, "无效的Token"
-			c.JSON(http.StatusUnauthorized, response)
-			return
-		}
+
 		secretKey := secret.SecretKey
 		if nowTs, err := strconv.ParseInt(expires, 10, 64); err != nil {
 			c.Abort()
@@ -133,7 +141,7 @@ func Validate() gin.HandlerFunc {
 
 		//response.Code, response.Message = configure.RequestSuccess, secretKey
 		//c.JSON(http.StatusOK, response)
-		c.Writer.Header().Set("X-Request-User", secret.User)
+
 		c.Next() //该句可以省略，写出来只是表明可以进行验证下一步中间件，不写，也是内置会继续访问下一个中间件的
 	}
 }
@@ -155,8 +163,7 @@ func genSignature(accessKey, secretKey, uri, method, urlParams, params, nowTS st
 		params = fmt.Sprintf("%x", md5Ctx.Sum(nil))
 	}
 
-	// HTTP-Verb + "\n" +URL + "\n" +Parameters + "\n" +Content-Type + "\n" +Content-MD5 + "\n" +Date + "\n" +AccessKey;
-	strSign := method + "\n" + uri + "\n" + urlParams + "\n"  + "\n" + params + "\n" + nowTS + "\n" + accessKey
+	strSign := method + "\n" + uri + "\n" + urlParams  + "\n" + params + "\n" + nowTS + "\n" + accessKey
 	sign := hmacSHA1Encrypt(strSign, secretKey)
 	return sign, nil
 }

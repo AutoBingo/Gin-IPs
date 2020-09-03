@@ -6,19 +6,28 @@ mgo:
   uri: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
   database: gin_ips
   pool_size: 100
+redis:
+  host: 10.2.147.167
+  port: 11700
+  error_db: 1
 log:
   path: log/gin_ips
   level: DEBUG
   name: gin.log
   count: 180
 access_log:
-  access_path: log/gin_ips
+  access_path: log/api
   access_level: DEBUG
   access_name: access.log
   count: 180
 detail_log:
-  detail_path: log/gin_ips
+  detail_path: log/api
   detail_level: DEBUG
   detail_name: detail.log
+  count: 180
+error_log:
+  error_path: log/api
+  error_level: DEBUG
+  error_name: error.log
   count: 180
 expires: 10

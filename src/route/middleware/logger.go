@@ -4,7 +4,6 @@ import (
 	"Gin-IPs/src/configure"
 	"Gin-IPs/src/route/response"
 	"Gin-IPs/src/utils/log"
-	"Gin-IPs/src/utils/uuid"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -66,8 +65,6 @@ func (w BodyLogWriter) WriteString(s string) (int, error) {
 	return w.ResponseWriter.WriteString(s)
 }
 
-var SnowWorker, _ = uuid.NewSnowWorker(100) // 随机生成一个uuid，100是节点的值（随便给一个）
-
 // 打印日志
 func Logger() gin.HandlerFunc {
 	go logHandlerFunc()
@@ -84,7 +81,6 @@ func Logger() gin.HandlerFunc {
 
 		c.Next()
 
-		user := c.Writer.Header().Get("X-Request-User")
 		responseBody := bodyLogWriter.body.Bytes()
 		response := route_response.Response{}
 		if len(responseBody) > 0 {
@@ -93,7 +89,7 @@ func Logger() gin.HandlerFunc {
 		end := time.Now()
 		responseTime := float64(end.Sub(start).Nanoseconds()) / 1000000.0 // 纳秒转毫秒才能保留小数
 		logField := map[string]interface{}{
-			"user":            user,
+			"user":            c.Writer.Header().Get("X-Request-User"),
 			"uri":             c.Request.URL.Path,
 			"raw_query":       c.Request.URL.RawQuery,
 			"start_timestamp": start.Format("2006-01-02 15:04:05"),
@@ -109,7 +105,7 @@ func Logger() gin.HandlerFunc {
 			"content_type":   c.Request.Header.Get("Content-Type"),
 			"status":         c.Writer.Status(),
 			"user_agent":     c.Request.UserAgent(),
-			"trace_id":       SnowWorker.GetId(),
+			"trace_id":       c.Writer.Header().Get("X-Request-Trace-Id"),
 		}
 		logField["detail"] = string(requestBody)
 

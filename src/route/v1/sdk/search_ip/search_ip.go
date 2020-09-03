@@ -17,6 +17,7 @@ var SearchIpHandlerWithGet = func(c *gin.Context) {
 		Data: route_response.ResponseData{List: []interface{}{}},
 	}
 	var params route_request.ReqGetParaSearchIp
+	panic("this is test panic")
 	if err := c.ShouldBindQuery(&params); err != nil {
 		code, msg := params.ParseError(err)
 		response.Code, response.Message = code, msg

@@ -16,6 +16,14 @@ const (
 
 var OidArray = []Oid{OidHost, OidSwitch}
 
+// 路由定义  /cmdb/$version/$DevPkg/$ApiURI
+type DevPkg string
+
+const (
+	ObjectPkg    DevPkg = "object"    // 标准模型搜索
+	SdkPkg       DevPkg = "sdk"       // 封装场景 sdk
+)
+
 const (
 	InstanceCollection = "instances" // 存放实例的集合
 	SecretCollection   = "secret"    // 存放密钥的集合

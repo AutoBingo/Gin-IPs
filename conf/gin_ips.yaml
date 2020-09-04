@@ -1,7 +1,7 @@
 api_server:
-  env: prod
+  env: debug
   host: 127.0.0.1
-  port: 9000
+  port: 8080
 mgo:
   uri: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
   database: gin_ips

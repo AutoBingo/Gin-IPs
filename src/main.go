@@ -3,9 +3,9 @@ package main
 import (
 	"Gin-IPs/src/configure"
 	"Gin-IPs/src/dao"
+	"Gin-IPs/src/route"
 	route_middleware "Gin-IPs/src/route/middleware"
 	"Gin-IPs/src/route/request"
-	"Gin-IPs/src/route/v1/sdk/search_ip"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"os"
@@ -23,14 +23,25 @@ func main() {
 		os.Exit(1)
 	}
 	dao.Start()
-	route := gin.New() // 不用默认的日志中间件
+
+	if configure.GinConfigValue.ApiServer.Env == "prod" {
+		gin.SetMode(gin.ReleaseMode) // 生产模式
+	}
+
+	r := gin.New() // 不用默认的日志中间件
 	route_request.InitValidator()
-	route.Use(route_middleware.Logger())
-	route.Use(route_middleware.Validate())
+
+	r.Use(route_middleware.Logger())
+	r.Use(route_middleware.Validate())
 	// route.Use(gin.Recovery())  // 内置的 recovery
-	route.Use(route_middleware.Recovery())  // 放在鉴权后面可以得到 user
-	route.GET("/", v1_sdk_search_ip.SearchIpHandlerWithGet)
-	if err := route.Run("127.0.0.1:8080"); err != nil {
+	r.Use(route_middleware.Recovery())  // 放在鉴权后面可以得到 user
+
+	route.InitRouteGroups()
+	route.AddRoute(r)  // 动态路由实现
+
+	addr := fmt.Sprintf("%s:%d", configure.GinConfigValue.ApiServer.Host,
+		configure.GinConfigValue.ApiServer.Port)
+	if err := r.Run(addr); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}

@@ -10,15 +10,10 @@ redis:
   host: 10.2.147.167
   port: 11700
   error_db: 1
-dao_log:
-  dao_path: log/dao
-  dao_level: DEBUG
-  dao_name: dao.log
-  count: 180
-service_log:
-  service_path: log/service
-  service_level: DEBUG
-  service_name: service.log
+log:
+  path: log/gin_ips
+  level: DEBUG
+  name: gin.log
   count: 180
 access_log:
   access_path: log/api

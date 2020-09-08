@@ -20,8 +20,8 @@ var OidArray = []Oid{OidHost, OidSwitch}
 type DevPkg string
 
 const (
-	ObjectPkg    DevPkg = "object"    // 标准模型搜索
-	SdkPkg       DevPkg = "sdk"       // 封装场景 sdk
+	ObjectPkg DevPkg = "object" // 标准模型搜索
+	SdkPkg    DevPkg = "sdk"    // 封装场景 sdk
 )
 
 const (
@@ -68,10 +68,16 @@ type GinConfig struct {
 		Port    int64  `yaml:"port"`
 		ErrorDb int    `yaml:"error_db"` // 存放错误信息的数据库 recovery
 	} `yaml:"redis"`
-	Log struct {
-		Name  string `yaml:"name"`
-		Path  string `yaml:"path"`
-		Level string `yaml:"level"`
+	DaoLog struct {
+		Name  string `yaml:"dao_name"`
+		Path  string `yaml:"dao_path"`
+		Level string `yaml:"dao_level"`
+		Count uint   `yaml:"count"`
+	} `yaml:"log"`
+	ServiceLog struct {
+		Name  string `yaml:"service_name"`
+		Path  string `yaml:"service_path"`
+		Level string `yaml:"service_level"`
 		Count uint   `yaml:"count"`
 	} `yaml:"log"`
 	AccessLog struct {

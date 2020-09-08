@@ -22,8 +22,8 @@ var ModelClient = new(Models)
 
 func Init() error {
 	if logger, err := mylog.New(
-		configure.GinConfigValue.Log.Path, configure.GinConfigValue.Log.Name,
-		configure.GinConfigValue.Log.Level, nil, configure.GinConfigValue.Log.Count); err != nil {
+		configure.GinConfigValue.DaoLog.Path, configure.GinConfigValue.DaoLog.Name,
+		configure.GinConfigValue.DaoLog.Level, nil, configure.GinConfigValue.DaoLog.Count); err != nil {
 		return err
 	} else {
 		ModelClient.Logger = logger

@@ -10,6 +10,7 @@
 * [【Gin-API系列】Gin中间件之异常处理（六）](https://www.cnblogs.com/lxmhhy/p/13608517.html)
 * [【Gin-API系列】实现动态路由分组（七）](https://www.cnblogs.com/lxmhhy/p/13614097.html)
 * [【Gin-API系列】守护进程和平滑重启（八）](https://www.cnblogs.com/lxmhhy/p/13633581.html)
+* [【Gin-API系列】部署和监控（九）](https://www.cnblogs.com/lxmhhy/p/13639376.html)
 
 # 编译运行
 * 编译

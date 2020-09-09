@@ -18,7 +18,7 @@ go test -v mock_test.go
 ```
 * 运行
 ```bash
-cd ../Gin-IPS/
+cd ..
 ./main
 ```
 * 测试
@@ -26,7 +26,20 @@ cd ../Gin-IPS/
 cd test
 go test -v request_test.go gin-api.go
 ```
+* 平滑重启
+```bash
+# ps -ef |grep main
+root      9142     1  1 13:26 ?        00:00:03 ./main
+root      9667 21410  0 13:29 pts/0    00:00:00 grep main
 
+# kill -USR2 9142
+
+# ps -ef |grep main
+root      9668     1 99 13:29 ?        00:00:02 ./main -graceful
+root      9682 21410  0 13:29 pts/0    00:00:00 grep main
+
+# go test -v request_test.go gin-api.go 
+```
 # Gin-API系列文章
 * [【Gin-API系列】需求设计和功能规划（一）](https://www.cnblogs.com/lxmhhy/p/13385475.html)
 * [【Gin-API系列】请求和响应参数的检查绑定（二）](https://www.cnblogs.com/lxmhhy/p/13385482.html)

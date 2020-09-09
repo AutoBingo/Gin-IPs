@@ -4,27 +4,27 @@
 # 编译运行
 * 编译
 ```bash
-cd Gin-IPs
-go build src/main.go
+# cd Gin-IPs
+# go build src/main.go
 ```
 * 更新配置
 > 根据`conf/gin_ips.yaml`的`mgo`配置和`redis`配置新建mongodb数据库和redis，并确认服务正常运行
 
 * 生成测试数据
 ```bash
-cp -r conf test/conf 
-cd test
-go test -v mock_test.go 
+# cp -r conf test/conf 
+# cd test
+# go test -v mock_test.go 
 ```
 * 运行
 ```bash
-cd ..
-./main
+# cd ..
+# ./main
 ```
 * 测试
 ```bash
-cd test
-go test -v request_test.go gin-api.go
+# cd test
+# go test -v request_test.go gin-api.go
 ```
 * 平滑重启
 ```bash

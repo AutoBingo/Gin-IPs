@@ -1,6 +1,32 @@
 # 项目介绍
 本项目用`golang`创建了一个API服务，代码中包含完整的程序和配置文件。如果有需要使用`Gin`开发后台API服务的，可以直接`Clone`，也欢迎各路大佬一起完善代码。
 
+# 编译运行
+* 编译
+```bash
+cd Gin-IPs
+go build src/main.go
+```
+* 更新配置
+> 根据`conf/gin_ips.yaml`的`mgo`配置和`redis`配置新建mongodb数据库和redis，并确认服务正常运行
+
+* 生成测试数据
+```bash
+cp -r conf test/conf 
+cd test
+go test -v mock_test.go 
+```
+* 运行
+```bash
+cd ../Gin-IPS/
+./main
+```
+* 测试
+```bash
+cd test
+go test -v request_test.go gin-api.go
+```
+
 # Gin-API系列文章
 * [【Gin-API系列】需求设计和功能规划（一）](https://www.cnblogs.com/lxmhhy/p/13385475.html)
 * [【Gin-API系列】请求和响应参数的检查绑定（二）](https://www.cnblogs.com/lxmhhy/p/13385482.html)

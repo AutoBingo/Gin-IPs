@@ -4,32 +4,21 @@ import (
 	"Gin-IPs/src/configure"
 	"Gin-IPs/src/dao"
 	"Gin-IPs/src/models"
+	"fmt"
+	"os"
 	"testing"
 )
 
-//func init()  {
-//	if err := configure.InitConfigValue(); err != nil { // 初始化配置
-//		fmt.Println(err)
-//		os.Exit(1)
-//	}
-//	if err := dao.Init(); err != nil { // 初始化配置
-//		fmt.Println(err)
-//		os.Exit(1)
-//	}
-//}
-
-/*
-secret 集合数据
-
-{
-    "access_key": "A00001",
-    "secret_key": "SECRET-A00001",
-    "user": "xiaoming",
-    "state": "valid",
-    "ctime": "2020-08-01 12:00:00"
+func init() {
+	if err := configure.InitConfigValue(); err != nil { // 初始化配置
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	if err := dao.Init(); err != nil { // 初始化配置
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }
-
-*/
 
 // 插入数据库数据
 func TestInsertData(t *testing.T) {
@@ -55,7 +44,9 @@ func TestInsertData(t *testing.T) {
 			Owner:    []string{"小黄"},
 		},
 	}
-	_ = dao.InsertHost(hmArr)
+	if err := dao.InsertHost(hmArr); err != nil {
+		t.Fatal(err)
+	}
 
 	swArr := []models.SwitchModel{
 		{
@@ -79,5 +70,18 @@ func TestInsertData(t *testing.T) {
 			Owner:         []string{"老马", "老曹"},
 		},
 	}
-	_ = dao.InsertSwitch(swArr)
+	if err := dao.InsertSwitch(swArr); err != nil {
+		t.Fatal(err)
+	}
+
+	secret := models.Secret{
+		AccessKey: "A00001",
+		SecretKey: "SECRET-A00001",
+		User:      "xiaoming",
+		State:     "valid",
+		Ctime:     "2020-08-01 12:00:00",
+	}
+	if err := dao.InsertSecret(secret); err != nil {
+		t.Fatal(err)
+	}
 }

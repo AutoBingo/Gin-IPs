@@ -48,7 +48,7 @@ func Init() error {
 		ModelClient.Logger.Errorf("Redis Client With Addr %s Create Failed: %s", redisAddr, err)
 		return err
 	}
-	ModelClient.Logger.Errorf("Redis Client With Addr %s Create Successful", redisAddr)
+	ModelClient.Logger.Infof("Redis Client With Addr %s Create Successful", redisAddr)
 
 	ModelClient.Logger.Infof("Models Created Success")
 	return nil

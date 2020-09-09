@@ -5,6 +5,7 @@ import (
 	"Gin-IPs/src/models"
 	"Gin-IPs/src/utils/database/mongodb"
 	"encoding/json"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func insertInstances(instArr []interface{}) error {
@@ -23,7 +24,7 @@ func InsertHost(hostArr []models.HostModel) error {
 		if hostBytes, err := json.Marshal(host); err != nil {
 			return err
 		} else {
-			var hm models.HostModel
+			var hm bson.M
 			if err := json.Unmarshal(hostBytes, &hm); err != nil {
 				return err
 			} else {
@@ -40,7 +41,7 @@ func InsertSwitch(switchArr []models.SwitchModel) error {
 		if hostBytes, err := json.Marshal(sw); err != nil {
 			return err
 		} else {
-			var sm models.SwitchModel
+			var sm bson.M
 			if err := json.Unmarshal(hostBytes, &sm); err != nil {
 				return err
 			} else {
@@ -51,3 +52,18 @@ func InsertSwitch(switchArr []models.SwitchModel) error {
 	return insertInstances(documents)
 }
 
+func InsertSecret(secret models.Secret) error {
+	mgo := mongodb.NewConnection(ModelClient.MgoPool, ModelClient.MgoDb, configure.SecretCollection)
+	defer mgo.Close()
+	if secretBytes, err := json.Marshal(secret); err != nil {
+		return err
+	} else {
+		var sm bson.M
+		if err := json.Unmarshal(secretBytes, &sm); err != nil {
+			return err
+		} else {
+			_, err := mgo.InsertOne(sm)
+			return err
+		}
+	}
+}

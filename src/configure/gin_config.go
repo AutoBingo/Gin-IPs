@@ -73,13 +73,13 @@ type GinConfig struct {
 		Path  string `yaml:"dao_path"`
 		Level string `yaml:"dao_level"`
 		Count uint   `yaml:"count"`
-	} `yaml:"log"`
+	} `yaml:"dao_log"`
 	ServiceLog struct {
 		Name  string `yaml:"service_name"`
 		Path  string `yaml:"service_path"`
 		Level string `yaml:"service_level"`
 		Count uint   `yaml:"count"`
-	} `yaml:"log"`
+	} `yaml:"service_log"`
 	AccessLog struct {
 		Name  string `yaml:"access_name"`
 		Path  string `yaml:"access_path"`

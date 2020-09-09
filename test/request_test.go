@@ -10,7 +10,7 @@ func TestAPI_Request(t *testing.T) {
 	params := map[string]interface{}{
 		"ip": "10.1.162.18",
 	}
-	if result, err  := api.Request("/", "GET", params); err != nil {
+	if result, err := api.Request("/v1/sdk/search_ip", "GET", params); err != nil {
 		t.Fatal(err)
 	} else {
 		t.Log(result)

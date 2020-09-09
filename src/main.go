@@ -12,7 +12,8 @@ import (
 )
 
 // 是否平滑启动， 该参数应该只在 reload中生效，第一次不应该使用
-var RunGraceful = flag.Bool("graceful", false, "listen on fd open 3(internal use only)")
+// kill -USR2 $pid 可以平滑重启
+var RunGraceful = flag.Bool("graceful", false, "reload graceful")
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())

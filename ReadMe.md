@@ -15,7 +15,7 @@
 # 编译运行
 * 编译
 ```bash
-# cd Gin-IPs
+# cd src
 # go build src/main.go
 ```
 * 更新配置
